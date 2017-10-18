@@ -18,6 +18,10 @@ class TestCLI(unittest.TestCase):
         from ..cli import main
         return main(args)
 
+    def test_list_templates(self):
+        output = self.call_FUT('--list-templates')
+        print(output)
+
     def test_version(self):
         output = self.call_FUT('--version')
         version = pkg_resources.get_distribution('mr.bob').version

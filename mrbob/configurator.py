@@ -89,8 +89,12 @@ def parse_template(template_name):
                 return os.path.join(path, subpath), True
             finally:
                 zf.close()
+
     if template_name in reg.templates:
         template_name = reg.templates[template_name]()
+
+    if template_name in reg.subtemplates:
+        template_name = reg.subtemplates[template_name]()
 
     if ':' in template_name:
         path = resolve_dotted_path(template_name)
