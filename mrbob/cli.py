@@ -13,7 +13,7 @@ from .configurator import maybe_bool
 from .bobexceptions import ConfigurationError
 from .bobexceptions import TemplateConfigurationError
 from .parsing import parse_config, update_config, pretty_format_config
-
+from .registry import TemplateRegistry
 
 # http://docs.python.org/library/argparse.html
 parser = argparse.ArgumentParser(description='Filesystem template renderer')
@@ -43,6 +43,11 @@ parser.add_argument('-l', '--list-questions',
                     action="store_true",
                     default=False,
                     help='List all questions needed for the template')
+parser.add_argument('--list-templates',
+                    dest="list_templates",
+                    action="store_true",
+                    default=False,
+                    help='List all available bobtemplates')
 parser.add_argument('-w', '--remember-answers',
                     action="store_true",
                     default=False,
@@ -62,6 +67,15 @@ def main(args=sys.argv[1:]):
     """Main function called by `mrbob` command.
     """
     options = parser.parse_args(args=args)
+
+    if options.list_templates:
+        reg = TemplateRegistry()
+        templates_str = 'Templates:\n'
+        templates = reg.list_templates()
+        for t in templates:
+            templates_str += " - {0}\n".format(t)
+        print(templates_str)
+        return
 
     if options.version:
         version = pkg_resources.get_distribution('mr.bob').version

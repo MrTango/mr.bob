@@ -17,6 +17,7 @@ import six
 from importlib import import_module
 
 from .rendering import render_structure
+from .registry import TemplateRegistry
 from .parsing import (
     parse_config,
     write_config,
@@ -70,6 +71,7 @@ def parse_template(template_name):
     """Resolve template name into absolute path to the template
     and boolean if absolute path is temporary directory.
     """
+    reg = TemplateRegistry()
     if template_name.startswith('http'):
         if '#' in template_name:
             url, subpath = template_name.rsplit('#', 1)
@@ -87,6 +89,8 @@ def parse_template(template_name):
                 return os.path.join(path, subpath), True
             finally:
                 zf.close()
+    if template_name in reg.templates:
+        template_name = reg.templates[template_name]()
 
     if ':' in template_name:
         path = resolve_dotted_path(template_name)
