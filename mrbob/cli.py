@@ -48,11 +48,6 @@ parser.add_argument('--list-templates',
                     action="store_true",
                     default=False,
                     help='List all available templates')
-parser.add_argument('--list-subtemplates',
-                    dest="list_subtemplates",
-                    action="store_true",
-                    default=False,
-                    help='List all available subtemplates')
 parser.add_argument('-w', '--remember-answers',
                     action="store_true",
                     default=False,
@@ -77,15 +72,6 @@ def main(args=sys.argv[1:]):
         reg = TemplateRegistry()
         templates_str = 'Templates:\n'
         templates = reg.list_templates()
-        for t in templates:
-            templates_str += " - {0}\n".format(t)
-        print(templates_str)
-        return
-
-    if options.list_subtemplates:
-        reg = TemplateRegistry()
-        templates_str = 'Subtemplates:\n'
-        templates = reg.list_subtemplates()
         for t in templates:
             templates_str += " - {0}\n".format(t)
         print(templates_str)
