@@ -53,10 +53,10 @@ parser.add_argument('-w', '--remember-answers',
                     default=False,
                     help='Remember answers to .mrbob.ini file inside output directory')
 parser.add_argument('-n', '--non-interactive',
-                  dest='non_interactive',
-                  action='store_true',
-                  default=False,
-                  help="Don't prompt for input. Fail if questions are required but not answered")
+                    dest='non_interactive',
+                    action='store_true',
+                    default=False,
+                    help="Don't prompt for input. Fail if questions are required but not answered")
 parser.add_argument('-q', '--quiet',
                     action="store_true",
                     default=False,
@@ -71,9 +71,11 @@ def main(args=sys.argv[1:]):
     if options.list_templates:
         reg = TemplateRegistry()
         templates_str = 'Templates:\n'
-        templates = reg.list_templates()
-        for t in templates:
-            templates_str += " - {0}\n".format(t)
+        for tmpl in reg.templates.values():
+            templates_str += " - {0}\n".format(tmpl['template_name'])
+            subtemplates = tmpl.get('subtemplates', [])
+            for subtmpl_name in subtemplates:
+                templates_str += "  - {0}\n".format(subtmpl_name)
         print(templates_str)
         return
 

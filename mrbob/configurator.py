@@ -90,8 +90,8 @@ def parse_template(template_name):
             finally:
                 zf.close()
 
-    if template_name in reg.templates:
-        template_info = reg.templates[template_name]()
+    if template_name in reg.template_infos:
+        template_info = reg.template_infos[template_name]
         template_name = template_info.template
 
     if ':' in template_name:
@@ -255,7 +255,8 @@ class Question(object):
     :param post_ask_question: Space limited functions in dotted notation to ask aster the question is asked
     :param **extra: Any extra parameters stored for possible extending of `Question` functionality
 
-    Any of above parameters can be accessed as an attribute of `Question` instance.
+    Any of above parameters can be accessed as an attribute of `Question`
+    instance.
 
     """
 
@@ -329,7 +330,8 @@ class Question(object):
                 # if we don't have an answer, take default
                 elif self.default is not None:
                     correct_answer = maybe_bool(self.default)
-                # if we don't have an answer or default value and is required, reask
+                # if we don't have an answer or default value and is required,
+                # reask
                 elif self.required and not correct_answer:
                     if non_interactive:
                         raise ConfigurationError('non-interactive mode: question %s is required but not answered.' % self.name)
